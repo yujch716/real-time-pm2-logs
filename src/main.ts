@@ -1,5 +1,6 @@
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
+import { SocketIoAdapter } from '@nestjs/platform-socket.io';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
@@ -9,6 +10,9 @@ async function bootstrap() {
     methods: ['GET', 'POST'],
     allowedHeaders: ['Content-Type'],
   });
+
+  app.useWebSocketAdapter(new SocketIoAdapter(app));
+
   await app.listen(8001);
 }
 bootstrap();
