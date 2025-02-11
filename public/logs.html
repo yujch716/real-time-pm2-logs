@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Hello Board Server Log</title>
+  <script src="https://cdn.socket.io/4.4.1/socket.io.min.js"></script>
+  <style>
+      body {
+          background-color: #1e1e1e;
+          color: #dcdcdc;
+          font-family: monospace;
+          white-space: pre-wrap;
+          padding: 20px;
+      }
+      #log-container {
+          border: 1px solid #333;
+          padding: 10px;
+          height: 500px;
+          overflow-y: scroll;
+          background: #111;
+      }
+  </style>
+</head>
+<body>
+<h2>Hello Board Server Log</h2>
+<div id="log-container"></div>
+
+<script>
+  //const socketUrl = 'ws://localhost:8001';
+  const socketUrl = 'ws://52.78.114.130/logs';
+  const socket = io(socketUrl);
+  const logContainer = document.getElementById("log-container");
+
+  socket.on("logUpdate", (logData) => {
+    console.log(`${socketUrl}`);
+    console.log("Received log data: ", logData);
+    logContainer.textContent = logData;
+    logContainer.scrollTop = logContainer.scrollHeight;
+  });
+</script>
+</body>
+</html>
