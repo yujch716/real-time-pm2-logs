@@ -16,30 +16,61 @@
       #log-container {
           border: 1px solid #333;
           padding: 10px;
-          height: 500px;
+          height: 700px;
           overflow-y: scroll;
           background: #111;
+      }
+      #refresh-button {
+          margin-top: 20px;
+          padding: 10px 20px;
+          background-color: #444;
+          color: #fff;
+          border: none;
+          cursor: pointer;
+      }
+      #refresh-button:hover {
+          background-color: #555;
       }
   </style>
 </head>
 <body>
 <h2>Hello Board Server Log</h2>
-<div id="log-container"></div>
+<div id="log-container">loading...</div>
+<button id="refresh-button">load</button>
+
+<!--<script>-->
+<!--  const socketUrl = 'ws://localhost:8001';-->
+<!--  const socketUrl = 'ws://52.78.114.130/socket.io/';-->
+<!--  const socket = io(socketUrl);-->
+<!--  const logContainer = document.getElementById("log-container");-->
+
+<!--  socket.on("connect", () => console.log("✅ WebSocket connected"));-->
+<!--  socket.on("disconnect", () => console.log("❌ WebSocket disconnected"));-->
+<!--  socket.on("logUpdate", (logData) => {-->
+<!--    console.log(`${socketUrl}`);-->
+<!--    console.log("Received log data: ", logData);-->
+<!--    logContainer.textContent = logData;-->
+<!--    logContainer.scrollTop = logContainer.scrollHeight;-->
+<!--  });-->
+<!--</script>-->
 
 <script>
-  //const socketUrl = 'ws://localhost:8001';
-  const socketUrl = 'ws://52.78.114.130/socket.io/';
-  const socket = io(socketUrl);
-  const logContainer = document.getElementById("log-container");
+  function loadLogs() {
+    fetch('/logs')
+      .then(response => response.text())
+      .then(data => {
+        document.getElementById("log-container").textContent = data;
+      })
+      .catch(error => {
+        document.getElementById("log-container").textContent = '로그를 가져오는 데 실패했습니다.';
+      });
+  }
 
-  socket.on("connect", () => console.log("✅ WebSocket connected"));
-  socket.on("disconnect", () => console.log("❌ WebSocket disconnected"));
-  socket.on("logUpdate", (logData) => {
-    console.log(`${socketUrl}`);
-    console.log("Received log data: ", logData);
-    logContainer.textContent = logData;
-    logContainer.scrollTop = logContainer.scrollHeight;
+  document.getElementById("refresh-button").addEventListener("click", function() {
+    location.reload();
   });
+
+  loadLogs();
 </script>
 </body>
 </html>
