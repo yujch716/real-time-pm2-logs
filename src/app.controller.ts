@@ -12,7 +12,7 @@ export class AppController {
     return this.appService.getHello();
   }
 
-  @Get('logs')
+  @Get('logs/load')
   getLogs(): string {
     //const logFilePath = join(process.cwd(), 'test.log');
     const logFilePath = '/home/ubuntu/.pm2/logs/helloboard-server-out.log';

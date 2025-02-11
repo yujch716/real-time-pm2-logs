@@ -56,7 +56,7 @@
 
 <script>
   function loadLogs() {
-    fetch('/logs')
+    fetch('/logs/load')
       .then(response => response.text())
       .then(data => {
         document.getElementById("log-container").textContent = data;
